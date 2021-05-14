@@ -13,7 +13,7 @@ const registerVehicle = async (req, res) => {
     try {
         // register new vehicle
         const vehicle = new Vehicle({
-            plate_number: req.body.plate_number,
+            plate_number: req.body.plateNumber,
             mode: 'sample data',
             color: "sample data",
             brand: "sample data",
@@ -46,15 +46,21 @@ const registerVehicle = async (req, res) => {
 const getVehicleByNumber = async (req, res) => {
 
     // grab user data
-    const { plate_number } = req.body;
+    const { plateNumber } = req.body;
+
+    // log response
+    console.log(plateNumber);
 
     try {
         // get vehicle by number
-        let vehicle = await Vehicle.findOne({ plate_number: new RegExp('^' + plate_number + '$', "i") });
+        let vehicle = await Vehicle.findOne({ plate_number: new RegExp('^' + plateNumber + '$', "i") });
 
         if (vehicle) {
             // send response
             res.status(200).json(vehicle);
+        } else {
+            // send response
+            res.status(400).json({ errors: [{ msg: 'Not Found' }] });
         }
 
     } catch (error) {
@@ -80,12 +86,12 @@ const getVehicleById = async (req, res) => {
 const updateVehicle = async (req, res) => {
 
     const {
-        plate_number,
+        plateNumber,
         mode,
         color,
         brand,
         category,
-        broad_class,
+        broadClass,
         images,
         name,
         address
@@ -95,12 +101,12 @@ const updateVehicle = async (req, res) => {
         const vehicle = await Vehicle.findById(req.params.id)
 
         if (vehicle) {
-            vehicle.plate_number = plate_number
+            vehicle.plate_number = plateNumber
             vehicle.mode = mode
             vehicle.color = color
             vehicle.brand = brand
             vehicle.category = category
-            vehicle.broad_class = broad_class
+            vehicle.broad_class = broadClass
             vehicle.images = images
             vehicle.owner_information.name = name
             vehicle.owner_information.address = address

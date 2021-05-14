@@ -7,7 +7,9 @@ const path = require('path')
 const MethodOverride = require('method-override');
 
 
-
+const User = require('./routes/users.js');
+const Vehicle = require('./routes/vehicle.js');
+const Upload = require('./routes/upload.js');
 
 // initial express server
 const server = express();
@@ -48,8 +50,11 @@ server.use((req, res, next) => {
 
 
 // server routes config
-server.use('/account', require('./routes/users'));
-server.use('/vehicle', require('./routes/vehicle'));
+server.use('/account', User);
+server.use('/vehicle', Vehicle);
+server.use('/upload', Upload);
+
+const PORT = process.env.PORT || 8000;
 
 // server listener
-server.listen(process.env.PORT, () => console.log("server running just fine..."))
+server.listen(PORT, () => console.log("server running just fine..."))

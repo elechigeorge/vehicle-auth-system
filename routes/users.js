@@ -12,7 +12,7 @@ router
             .isLength({ min: 6 }))
     .post(createUser).get(authenticate, getUser);
 
-router.route('/login').post(authUser);
+router.post('/login', authUser);
 
 
 
